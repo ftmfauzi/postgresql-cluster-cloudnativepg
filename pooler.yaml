@@ -1,0 +1,30 @@
+apiVersion: postgresql.cnpg.io/v1
+kind: Pooler
+metadata:
+  name: example-pg-pooler
+  namespace: postgresql-cluster
+spec:
+  cluster:
+    name: example-pg-cluster # existing your cluster name
+  instances: 3
+  type: rw
+  serviceTemplate:
+    metadata:
+      labels:
+        app: pooler
+    spec:
+      ports:
+        - name: pgbouncer
+          protocol: TCP
+          port: 5432
+          targetPort: pgbouncer
+        - name: metrics
+          protocol: TCP
+          port: 9127
+          targetPort: 9127
+      type: ClusterIP
+  pgbouncer:
+    poolMode: session
+    parameters:
+      max_client_conn: "1000"
+      default_pool_size: "10"
