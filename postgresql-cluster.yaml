@@ -28,6 +28,7 @@ spec:
                 operator: In
                 values:
                   - node-pool-db
+# Backup rule
   backup:
     barmanObjectStore:
       destinationPath: "s3://backup-db-example"
@@ -43,6 +44,7 @@ spec:
       data:
         compression: "gzip"
     retentionPolicy: "3d"
+# Service and metrics
 ---
 apiVersion: v1
 kind: Service
